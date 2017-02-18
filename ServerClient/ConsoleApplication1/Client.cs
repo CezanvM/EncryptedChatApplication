@@ -15,10 +15,10 @@ namespace ClientNSP
     public class Client
     {
         static Random rnd = new Random();
-        public  Socket master;
-        public  string name = Environment.MachineName + (rnd.Next(0, 221)) + "";
-        public  bool connecting = true;
-        public  bool running = false;
+        public Socket master;
+        public string name = Environment.MachineName + (rnd.Next(0, 221)) + "";
+        public bool connecting = true;
+        public bool running = false;
 
         public static int clientNumber;
         public static bool connected = false;
@@ -29,12 +29,12 @@ namespace ClientNSP
             c1.init();
         }
 
-        public  void init()
+        public void init()
         {
             new Thread(run).Start();
         }
 
-         void run()
+        void run()
         {
             while (connecting)
             {
@@ -61,7 +61,7 @@ namespace ClientNSP
                         Console.WriteLine("thread started");
                         connecting = false;
                         running = true;
-                        
+
                     }
                     catch (Exception)
                     {
@@ -109,14 +109,14 @@ namespace ClientNSP
             //p.Gdata.Add(y + "");
             //master.Send(p.toByte());
         }
-         void sentMessage(string m)
+        void sentMessage(string m)
         {
             Packet p = new Packet(PacketType.Message, "lala");
             p.Gdata.Add(m);
             master.Send(p.toByte());
         }
 
-         void data_IN()
+        void data_IN()
         {
             byte[] Buffer;
             int readBytes;
@@ -146,11 +146,11 @@ namespace ClientNSP
         void dataManager(Packet p)
         {
             // switch case with packet switch
-            switch(p.PacketType)
+            switch (p.PacketType)
             {
                 case PacketType.ServerAck:
                     Console.WriteLine("Server response:  " + p.Gdata[0]);
-                break;
+                    break;
             }
         }
 

@@ -33,8 +33,8 @@ namespace ServerNSP
             Thread listenThread = new Thread(ListenThread);
             listenThread.Start();
 
-             Thread ManagerThread = new Thread(DataManger);
-             ManagerThread.Start();
+            Thread ManagerThread = new Thread(DataManger);
+            ManagerThread.Start();
 
         } // main thread
 
@@ -95,24 +95,24 @@ namespace ServerNSP
                     Packet packet = new Packet(Buffer);
                     PacketQue.Add(packet);
                     //DataManger(packet);
-                   
+
 
 
                 }
             }
         }
- 
+
 
 
 
         private static void DataManger()
         {
-            A:
+        A:
             if (PacketQue.Count > 0)
             {
-                for(int i = PacketQue.Count; i > 0; i--)
+                for (int i = PacketQue.Count; i > 0; i--)
                 {
-                    Packet p = PacketQue[i-1];
+                    Packet p = PacketQue[i - 1];
                     switch (p.PacketType)
                     {
                         case PacketType.Login:
@@ -127,18 +127,18 @@ namespace ServerNSP
                             // write to json;
                             break;
                     }
-                    PacketQue.RemoveAt(i-1);
-                   
+                    PacketQue.RemoveAt(i - 1);
+
                 }
                 goto A;
             }
             else
-            {       
+            {
                 Thread.Sleep(500);
                 goto A;
             }
-            
-            
+
+
         }
 
 
