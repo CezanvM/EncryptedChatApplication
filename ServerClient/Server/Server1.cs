@@ -16,8 +16,7 @@ namespace ServerNSP
         private static List<clientData> clients;
         static Socket listernerSocket;
         private static bool listening = true;
-        static List<Packet> PlayerPosPacketList = new List<Packet>();
-        static List<Packet> BombPosPacketList = new List<Packet>();
+        private static List<Packet> PacketQue = new List<Packet>();
 
         public delegate void ChangedEventHandler();
 
@@ -36,6 +35,9 @@ namespace ServerNSP
 
             Thread listenThread = new Thread(ListenThread);
             listenThread.Start();
+
+             Thread ManagerThread = new Thread(DataManger);
+             ManagerThread.Start();
 
         } // main thread
 
@@ -96,9 +98,9 @@ namespace ServerNSP
                 {
 
                     Packet packet = new Packet(Buffer);
+                    PacketQue.Add(packet);
                     //DataManger(packet);
-                    Thread ManagerThread = new Thread(DataManger);
-                    ManagerThread.Start();
+                   
 
 
                 }
@@ -108,24 +110,41 @@ namespace ServerNSP
 
 
 
-        private static void DataManger(object po)
+        private static void DataManger()
         {
-            Packet p = (Packet)po;
-            switch (p.PacketType)
+            A:
+            if (PacketQue.Count > 0)
             {
-                case PacketType.Login:
-                    //check account from database/ json;
-                    break;
+                for(int i = PacketQue.Count; i > 0; i--)
+                {
+                    Packet p = PacketQue[i-1];
+                    switch (p.PacketType)
+                    {
+                        case PacketType.Login:
+                            //check account from database/ json;
+                            break;
 
-                case PacketType.Message:
+                        case PacketType.Message:
+                            Console.WriteLine("message is: " + p.Gdata[0] + "from...." + p.senderID);
+                            break;
 
-                    break;
-
-                case PacketType.Registration:
-                    // write to json;
-                    break;
+                        case PacketType.Registration:
+                            // write to json;
+                            break;
+                    }
+                    PacketQue.RemoveAt(i-1);
+                   
+                }
+                goto A;
             }
-
+            else
+            {       
+                Thread.Sleep(500);
+                Console.WriteLine("sleeping...");
+                goto A;
+            }
+            
+            
         }
 
 

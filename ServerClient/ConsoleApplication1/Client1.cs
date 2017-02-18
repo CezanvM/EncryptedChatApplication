@@ -53,6 +53,7 @@ namespace ClientNSP
 
                     try
                     {
+                        Console.Clear();
                         Console.WriteLine("connecting");
                         master.Connect(ipe);
                         Console.WriteLine("connected");
@@ -73,6 +74,23 @@ namespace ClientNSP
                 }
             }
             Console.WriteLine("while closed");
+
+            while (true)
+            {
+                sentMessage("message1");
+                Thread.Sleep(500);
+                sentMessage("message2");
+                Thread.Sleep(200);
+                sentMessage("message3");
+                Thread.Sleep(333);
+                sentMessage("message4");
+                Thread.Sleep(250);
+                sentMessage("message5");
+                Thread.Sleep(1500);
+                sentMessage("message6");
+                Thread.Sleep(673);
+                sentMessage("message7");
+            }
         }
 
         void sendplayerPos(int x, int y)
@@ -91,6 +109,12 @@ namespace ClientNSP
             //p.Gdata.Add(x + "");
             //p.Gdata.Add(y + "");
             //master.Send(p.toByte());
+        }
+         void sentMessage(string m)
+        {
+            Packet p = new Packet(PacketType.Message, "lala");
+            p.Gdata.Add(m);
+            master.Send(p.toByte());
         }
 
          void data_IN()
