@@ -48,25 +48,24 @@ namespace ServerNSP
             {
                 listernerSocket.Listen(10);
                 clients.Add(new clientData(listernerSocket.Accept()));
-                eventHandler.Invoke();
                 Console.WriteLine("client connected");
                 foreach (var client in clients)
                 {
-                    Console.WriteLine("connected id is: " + client.id);   
+                    Console.WriteLine("connected id is: " + client.id);
                 }
 
             }
-  
+
         }
 
         // listerner listends for clients trying trying to connect
 
 
-      
+
         public static void Data_IN(object cSocket)
         {
 
-            Socket clientSocket = (Socket) cSocket;
+            Socket clientSocket = (Socket)cSocket;
 
             byte[] Buffer = new byte[0];
             int readBytes = 0;
@@ -86,29 +85,32 @@ namespace ServerNSP
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     checkConnections();
-                    //Console.WriteLine(e.Message);
+
                 }
-                    
+
 
 
                 if (readBytes > 0)
-                    {
+                {
 
-                        Packet packet = new Packet(Buffer);
-                        DataManger(packet);
+                    Packet packet = new Packet(Buffer);
+                    //DataManger(packet);
+                    Thread ManagerThread = new Thread(DataManger);
+                    ManagerThread.Start();
 
-                    
+
                 }
             }
         }
-
-        //client data thhread recieves data from clients 
-
+ 
 
 
-        static public void DataManger(Packet p)
+
+        private static void DataManger(object po)
         {
+            Packet p = (Packet)po;
             switch (p.PacketType)
             {
                 case PacketType.Login:
@@ -116,7 +118,7 @@ namespace ServerNSP
                     break;
 
                 case PacketType.Message:
-                   
+
                     break;
 
                 case PacketType.Registration:
@@ -133,17 +135,18 @@ namespace ServerNSP
             {
                 if (clients[i].ClientSocket.Connected == false)
                 {
+                    clients[i].Disconect();
                     Console.WriteLine("client disconected" + clients[i].id);
                     clients.Remove(clients[i]);
-                    
+
                 }
             }
         }
 
         // data manager 
-       
+
 
 
     }
- 
+
 }

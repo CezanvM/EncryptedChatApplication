@@ -28,10 +28,14 @@ namespace Server
 
         public void SendregistartionPacket()
         {
-            Packet p = new Packet(PacketType.Registration, "server");
+            Packet p = new Packet(PacketType.ServerAck, "server");
             p.Gdata.Add(id);
             ClientSocket.Send(p.toByte());
+        }
 
+        public void Disconect()
+        {
+            ClientThread.Abort();
         }
     }
 }

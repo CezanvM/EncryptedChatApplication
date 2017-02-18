@@ -15,14 +15,20 @@ namespace ClientNSP
     public class Client1
     {
         static Random rnd = new Random();
-        public static Socket master;
-        public static string name = Environment.MachineName + (rnd.Next(0, 221)) + "";
-        public static bool connecting = true;
-        public static bool running = false;
+        public  Socket master;
+        public  string name = Environment.MachineName + (rnd.Next(0, 221)) + "";
+        public  bool connecting = true;
+        public  bool running = false;
 
         public static int clientNumber;
         private static bool clientNumberSet = false;
         public static bool connected = false;
+
+        static void Main()
+        {
+            Client1 c1 = new Client1();
+            c1.init();
+        }
 
         public  void init()
         {
@@ -31,7 +37,7 @@ namespace ClientNSP
 
          void run()
         {
-            while (true)
+            while (connecting)
             {
                 if (connecting)
                 {
@@ -47,13 +53,15 @@ namespace ClientNSP
 
                     try
                     {
+                        Console.WriteLine("connecting");
                         master.Connect(ipe);
-
+                        Console.WriteLine("connected");
                         Thread t = new Thread(data_IN);
                         t.Start();
-                        new Thread(proces).Start();
+                        Console.WriteLine("thread started");
                         connecting = false;
                         running = true;
+                        
                     }
                     catch (Exception)
                     {
@@ -64,21 +72,8 @@ namespace ClientNSP
                     }
                 }
             }
+            Console.WriteLine("while closed");
         }
-
-
-        void proces()
-        {
-            Random rnd = new Random();
-            while (running)
-            {
-                //sendplayerPos(rnd.Next(0, 500), rnd.Next(0, 500));
-                //sendBombPos(rnd.Next(0, 500), rnd.Next(0, 500));
-               //Thread.Sleep(1000 / 4);
-            }
-        }
-
-
 
         void sendplayerPos(int x, int y)
         {
@@ -125,13 +120,14 @@ namespace ClientNSP
             }
         }
 
-         void dataManager(Packet p)
+        void dataManager(Packet p)
         {
-            switch (p.PacketType)
+            // switch case with packet switch
+            switch(p.PacketType)
             {
-
-
-
+                case PacketType.ServerAck:
+                    Console.WriteLine("Server response:  " + p.Gdata[0]);
+                break;
             }
         }
 

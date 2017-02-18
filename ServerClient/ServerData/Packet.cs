@@ -84,7 +84,8 @@ namespace ServerData
     {
         Login,
         Registration,
-        Message
+        Message,
+        ServerAck
 
     }
 }
