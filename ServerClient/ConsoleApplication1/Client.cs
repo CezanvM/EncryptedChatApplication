@@ -43,7 +43,8 @@ namespace ClientNSP
                 A:
                     //Console.Clear();
                     //Console.WriteLine("enter ip adress:  ");
-                    string ip = "192.168.1.100";
+                    string ip = "192.168.85.1";
+                   // string ip = "192.168.1.100";
                     //Console.WriteLine(ip);
 
                     master = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

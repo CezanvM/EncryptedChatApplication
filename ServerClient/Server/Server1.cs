@@ -108,7 +108,7 @@ namespace ServerNSP
         private static void DataManger()
         {
         A:
-            if (PacketQue.Count > 0)
+            if (PacketQue.Count != 0)
             {
                 for (int i = PacketQue.Count; i > 0; i--)
                 {
