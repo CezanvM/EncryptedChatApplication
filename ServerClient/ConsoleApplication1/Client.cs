@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 
 namespace ClientNSP
 {
-    public class Client1
+    public class Client
     {
         static Random rnd = new Random();
         public  Socket master;
@@ -21,12 +21,11 @@ namespace ClientNSP
         public  bool running = false;
 
         public static int clientNumber;
-        private static bool clientNumberSet = false;
         public static bool connected = false;
 
         static void Main()
         {
-            Client1 c1 = new Client1();
+            Client c1 = new Client();
             c1.init();
         }
 

@@ -19,9 +19,6 @@ namespace ServerNSP
         private static List<Packet> PacketQue = new List<Packet>();
 
         public delegate void ChangedEventHandler();
-
-        private static event ChangedEventHandler eventHandler;
-
         static void Main(String[] args)
         {
             Console.WriteLine("starting server on " + Packet.getIp4Adress());
@@ -55,9 +52,7 @@ namespace ServerNSP
                 {
                     Console.WriteLine("connected id is: " + client.id);
                 }
-
             }
-
         }
 
         // listerner listends for clients trying trying to connect
@@ -140,7 +135,6 @@ namespace ServerNSP
             else
             {       
                 Thread.Sleep(500);
-                Console.WriteLine("sleeping...");
                 goto A;
             }
             
@@ -161,11 +155,6 @@ namespace ServerNSP
                 }
             }
         }
-
-        // data manager 
-
-
-
     }
 
 }
