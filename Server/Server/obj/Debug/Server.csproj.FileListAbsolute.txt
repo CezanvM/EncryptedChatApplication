@@ -1,2 +1,0 @@
-F:\encryptedChatApplication\Server\Server\bin\Debug\Server.exe.config
-F:\ChatApplication\EncryptedChatApplication\Server\Server\bin\Debug\Server.exe.config
