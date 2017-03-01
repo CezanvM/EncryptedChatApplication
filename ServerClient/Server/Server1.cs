@@ -17,7 +17,6 @@ namespace ServerNSP
         static Socket listernerSocket;
         private static bool listening = true;
         private static List<Packet> PacketQue = new List<Packet>();
-
         public delegate void ChangedEventHandler();
         static void Main(String[] args)
         {
@@ -30,14 +29,18 @@ namespace ServerNSP
 
             listernerSocket.Bind(ip);
 
+            
+
             Thread listenThread = new Thread(ListenThread);
             listenThread.Start();
 
             Thread ManagerThread = new Thread(DataManger);
             ManagerThread.Start();
 
-        } // main thread
+            Thread ClientManagerThread = new Thread(ClientManager);
+            ClientManagerThread.Start();
 
+        } // main thread
 
 
 
@@ -57,6 +60,26 @@ namespace ServerNSP
 
         // listerner listends for clients trying trying to connect
 
+
+        private static void ClientManager()
+        {
+            while (true)
+            {
+                for (int i = 0; i < clients.Count; i++)
+                {
+                    if (clients[i].ClientSocket.Connected == false)
+                    {
+                        clients[i].Disconect();
+                        clients[i].ClientSocket.Close();
+                        clients[i].ClientSocket.Shutdown(SocketShutdown.Both);
+                        clients[i].ClientThread.Abort();
+                        Console.WriteLine("client disconected" + clients[i].id);
+                        clients.Remove(clients[i]);
+                    }
+                }
+                Thread.Sleep(5000);
+            }
+        }
 
 
         public static void Data_IN(object cSocket)

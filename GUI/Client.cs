@@ -1,5 +1,4 @@
 ﻿using System;
-using ServerData;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,7 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using ConsoleApplication1;
+using GUI;
+using ServerData;
 
 namespace ClientNSP
 {
@@ -24,12 +24,6 @@ namespace ClientNSP
         public static int clientNumber;
         public static bool connected = false;
 
-        static void Main()
-        {
-            Client c1 = new Client();
-            c1.init();
-        }
-
         public void init()
         {
             new Thread(run).Start();
@@ -41,20 +35,19 @@ namespace ClientNSP
             {
                 if (connecting)
                 {
-                A:
+                    A:
                     //Console.Clear();
                     //Console.WriteLine("enter ip adress:  ");
                     string ip = "192.168.85.1";
-                   // string ip = "192.168.1.100";
+                    // string ip = "192.168.1.100";
                     //Console.WriteLine(ip);
-
                     master = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                     IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(ip), 1337);
 
                     try
                     {
-                        Console.Clear();
+  
                         Console.WriteLine("connecting");
                         master.Connect(ipe);
                         Console.WriteLine("connected");
@@ -75,6 +68,7 @@ namespace ClientNSP
                 }
             }
             Console.WriteLine("while closed");
+            Console.WriteLine("kekeke");
 
             //while (true)
             //{
@@ -111,7 +105,7 @@ namespace ClientNSP
             //p.Gdata.Add(y + "");
             //master.Send(p.toByte());
         }
-       public void sentMessage(string m)
+        public void sentMessage(string m)
         {
             Packet p = new Packet(PacketType.Message, "lala");
             p.Gdata.Add(m);

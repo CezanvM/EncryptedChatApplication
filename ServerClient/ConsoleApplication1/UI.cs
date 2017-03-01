@@ -9,21 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClientNSP;
 
-namespace GUI
+namespace ConsoleApplication1
 {
-    public partial class Form1 : Form
+    public partial class UI : Form
     {
         Client client = new Client();
-        public Form1()
+        public UI()
         {
             InitializeComponent();
-            
-            client.init();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            client.sentMessage("HEllo");
+            if (MessageBox.Text != "")
+            {
+                client.sentMessage(MessageBox.Text);
+            }
         }
     }
 }
